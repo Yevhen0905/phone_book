@@ -3,21 +3,21 @@
         <h2>Contact</h2>
         <form action="">
             <div class="add_contact_item">
-            <label for="name">Name</label>
-            <input class="add_contact_input" type="text" id="name" v-model="info.name">
-        </div>
-        <div class="add_contact_item">
-            <label for="number">Number</label>
-            <input class="add_contact_input" type="number" id="number" v-model="info.number">
-        </div>
-        <!-- <div class="add_contact_item">
+                <label for="name">Name</label>
+                <input class="add_contact_input" type="text" id="name" v-model="info.name">
+            </div>
+            <div class="add_contact_item">
+                <label for="number">Number</label>
+                <input class="add_contact_input" type="number" id="number" v-model="info.number">
+            </div>
+            <!-- <div class="add_contact_item">
             <label for="name">Date</label>
             <input type="text" id="name">
         </div> -->
-        <div class="add_contact_btn">
-            <button class="btn_cancel btn" @click.prevent="close">Cancel</button>
-            <button class="btn_save btn" @click.prevent="submit" type="submit">Save</button>
-        </div>
+            <div class="add_contact_btn">
+                <button class="btn_cancel btn" @click.prevent="close">Cancel</button>
+                <button class="btn_save btn" @click.prevent="submit" type="submit">Save</button>
+            </div>
         </form>
     </div>
 </template>
@@ -30,30 +30,26 @@ export default {
     data() {
         return {
             info: {
-                id: null,
                 name: '',
                 number: '',
             }
         }
     },
     methods: {
-        ...mapActions(['addContact']),
+        ...mapActions(['addContact', 'fetchContacts']),
         close() {
             this.$emit('close')
-
         },
-
-        submit() {
+        async submit() {
             if (this.info.name && this.info.number) {
-                this.info.id = Date.now()
-                this.addContact(this.info)
+               await this.addContact(this.info)
+                this.fetchContacts()
                 this.close()
             } else {
                 alert("Введіть ім'я и телефон")
             }
         }
     }
-
 }
 </script>
 
@@ -67,10 +63,11 @@ export default {
     width: 100%;
     background-color: rgb(252 252 252);
     border-radius: 4px;
-    border:1px solid rgb(66 69 75);
+    border: 1px solid rgb(66 69 75);
     padding: 20px;
     box-shadow: 0px 3px 12px rgb(62 189 216 / 50%);
 }
+
 .add_contact_item {
     display: flex;
     justify-content: space-between;
@@ -90,15 +87,16 @@ export default {
     font-size: 20px;
     outline-color: rgb(66 69 75);
 }
+
 .add_contact_btn {
     display: flex;
     justify-content: space-between;
 
     .btn_cancel {
         background-color: #d44343;
+
         &:hover {
             background-color: #6e2222;
         }
     }
-}
-</style>
+}</style>

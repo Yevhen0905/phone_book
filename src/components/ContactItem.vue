@@ -3,11 +3,11 @@
     <div>
       <i class="icon fa-regular fa-folder-open"></i>
     </div>
-    <span class="contact_info">{{ info.name }}</span>
-    <span class="contact_info info_date ">{{ info.number }}</span>
-    <span class="contact_info info_date">{{ info.date }}</span>
+    <span class="contact_info">{{ contact.name }}</span>
+    <span class="contact_info info_date ">{{ contact.number }}</span>
+    <span class="contact_info info_date">{{ contact.date }}</span>
     <div class="contact_item_delete">
-      <button class="remove_link">
+      <button class="remove_link" @click.prevent="remove()">
         <i class="icon fa-solid fa-trash-can"></i>
       </button>
     </div>
@@ -15,10 +15,19 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
     name: 'ContactItem',
     props: {
-      info: Object
+      contact: Object
+    },
+    methods: {
+      ...mapActions(['deleteContact', 'fetchContacts']),
+      remove() {
+       this.deleteContact(this.contact.id)
+       this.fetchContacts()
+      }
     }
 
 }

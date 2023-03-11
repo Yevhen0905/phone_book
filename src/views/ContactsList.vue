@@ -10,7 +10,7 @@
        v-for="contact in allContacts" 
        :key="contact.id" 
        :to="`/contact/${contact.id}`">
-      <ContactItem :info="contact"/>
+      <ContactItem :contact="contact"/>
     </router-link>
   </div>
 </template>
@@ -19,7 +19,6 @@
 import AddContact from '@/components/AddContact.vue';
 import ContactItem from '@/components/ContactItem.vue';
 import { mapActions, mapGetters } from 'vuex';
-
 
 export default {
   name: 'ContactsList',
@@ -39,7 +38,7 @@ export default {
     this.fetchContacts()
   },
   methods: {
-     ...mapActions(['fetchContacts'])
+     ...mapActions(['fetchContacts']),
 
   }
 }
