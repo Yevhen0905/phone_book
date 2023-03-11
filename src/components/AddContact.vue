@@ -56,10 +56,9 @@ export default {
 <style scoped lang="scss">
 .add_contact {
     position: absolute;
-    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    max-width: 500px;
+    max-width: 600px;
     width: 100%;
     background-color: rgb(252 252 252);
     border-radius: 4px;
