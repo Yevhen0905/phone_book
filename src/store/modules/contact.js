@@ -5,7 +5,7 @@ const URL = 'https://63e3d8e565ae4931771908a8.mockapi.io/api/contacts/';
 export default {
   state: {
     contacts: [],
-    contact: {}
+    // contact: {}
   },
   mutations: {
     getContacts(state, contacts) {
@@ -25,7 +25,7 @@ export default {
     async fetchContacts(ctx) {
       const res = await axios.get(URL);
       const contacts = await res.data;
-
+      console.log(contacts);
       ctx.commit('getContacts', contacts)
     },
 
@@ -47,6 +47,6 @@ export default {
   },
   getters: {
     allContacts: state => state.contacts,
-    contact: state => state.contact
+    // contact: state => state.contact
   }
 }
