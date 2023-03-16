@@ -1,7 +1,9 @@
 <template>
   <div class="block_item">
-    <div>
-      <i class="icon fa-regular fa-folder-open"></i>
+    <div class="contact_item_edit">
+      <router-link title="edit contact" class="edit_btn btn" :to="`/contact/${contact.id}`">
+        <i class="icon fa-regular fa-folder-open"></i>
+      </router-link>
     </div>
     <div class="contact_item">
       <div class="item" v-for="key in contact">
@@ -9,7 +11,7 @@
       </div>
     </div>
     <div class="contact_item_delete">
-      <button class="remove_link" @click.prevent="remove()">
+      <button title="delete contact" class="delete_btn btn" @click.prevent="remove()">
         <i class="icon fa-solid fa-trash-can"></i>
       </button>
     </div>
@@ -36,7 +38,7 @@ import { mapActions } from 'vuex';
 export default {
   name: 'ContactItem',
   props: {
-    contact: Array,
+    contact: Object,
   },
   methods: {
     ...mapActions(['deleteContact', 'fetchContacts']),
@@ -76,21 +78,17 @@ export default {
   align-items: center;
 }
 
-.contact_item[data-v-13ab405a] {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    padding: 1rem 0;
-    /* gap: 0.1rem; */
-    /* margin: 0 auto 0.5rem; */
-    /* font-size: 1.5rem; */
-    /* letter-spacing: 0.5rem; */
-    border-radius: 4px;
-    text-transform: uppercase;
-    font-weight: 600;
-    transition-duration: 0.4s;
-    box-shadow: 0 0 15px rgb(186 187 192);
+.contact_item {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding: 1rem 0;
+  border-radius: 4px;
+  font-weight: 500;
+  transition-duration: 0.4s;
+  box-shadow: 0 0 15px rgb(186 187 192);
 }
+
 .icon {
   font-size: 25px;
 }
@@ -98,11 +96,14 @@ export default {
 .contact_item_delete {
   margin-left: auto;
 }
-.remove_link {
+
+.btn {
   border: none;
-    outline: none;
+  outline: none;
+  background-color: inherit;
 }
-.remove_link:hover {
+
+.btn:hover {
   color: red;
 
   .icon {
@@ -116,5 +117,4 @@ export default {
   .icon {
     transform: scale(1.3);
   }
-}
-</style>
+}</style>

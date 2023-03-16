@@ -4,21 +4,20 @@
     <div class="contacts_btn">
       <button class="btn" @click.prevent="isOpenForm = true">add contact</button>
     </div>
-    <div class="contact_search">
+    <div class="contact_search"> Search
       <input class="contact_search_input" name="query" v-model="searchQuery">
     </div>
     <HeaderLinkContacts
-       :title-contacts="HeaderContacts"
+       :title-contacts="headerContacts"       
     />
     <AddContact 
       v-if="isOpenForm" 
       @close="isOpenForm = false" 
-    />
-    <ContactItem 
+    /> 
+      <ContactItem 
       :contact="contact"      
-      v-for="contact in allContacts" 
-      :key="contact.id"  
-      :all-contact="allContacts"
+      v-for="contact in filteredData" 
+      :key="contact.id"
     />
   </div>
 </template>
@@ -41,18 +40,44 @@ export default {
     return {
       isOpenForm: false,
       searchQuery: '',
-      HeaderContacts: ['name', 'number', 'date'],
+      headerContacts: [
+        {
+          title: 'name',
+          isActive: false
+        },
+        {
+          title: 'number',
+          isActive: false
+        },
+        {
+          title: 'date',
+          isActive: false
+        }
+      ],
     }
   },
   computed: {
-    ...mapGetters(['allContacts'])
+    ...mapGetters(['allContacts']),
+
+    filteredData() {
+      let listContacts = this.allContacts;
+     if(this.searchQuery != '' && this.searchQuery) {
+      listContacts = listContacts.filter((contact) => {
+        return contact.name
+        .toLowerCase()
+        .includes(this.searchQuery.toLowerCase())
+      })
+     }
+     return listContacts
+    }   
   },
   mounted() {
     this.fetchContacts()
   },
   methods: {
     ...mapActions(['fetchContacts']),
-  }
+  },
+  
 }
 </script>
 <style scoped lang="scss">
