@@ -1,8 +1,9 @@
 <template>
     <div class="header_contact">
         <div class="header_contact_item" 
-           v-for="item in titleContacts"
-           @click="sortContact(item.title)"
+           v-for="(item, index) in titleContacts"
+           :key="index"
+           @click="sortContact(item.title, index)"
            :class="{ active: item.isActive }"
         >
             {{ item.title }}
@@ -21,12 +22,13 @@ export default {
     },
     methods: {
      ...mapMutations(['setSortContacts']),
-     sortContact(s) {
-        this.setSortContacts(s)
-        this.toggleClass()
+
+     sortContact(item, index) {
+        this.setSortContacts(item)
+        this.toggle(index)
      },
-     toggleClass() {
-      this.isActive = !this.isActive;
+     toggle(index) {
+       this.$emit('toggle', index) 
      }
    }
 }

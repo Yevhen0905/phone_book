@@ -1,9 +1,9 @@
 <template>
   <div class="block_item">
     <div class="contact_item_edit">
-      <router-link title="edit contact" class="edit_btn btn" :to="`/contact/${contact.id}`">
+      <button title="edit contact" class="edit_btn btn">
         <i class="icon fa-regular fa-folder-open"></i>
-      </router-link>
+      </button>
     </div>
     <div class="contact_item">
       <div class="item" v-for="key in contact">
@@ -16,7 +16,6 @@
       </button>
     </div>
   </div>
-
   <!-- <div class="contact_item">
     <div>
       <i class="icon fa-regular fa-folder-open"></i>
@@ -30,6 +29,7 @@
       </button>
     </div>
   </div> -->
+  
 </template>
 
 <script>

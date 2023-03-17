@@ -7,18 +7,23 @@
     <div class="contact_search"> Search
       <input class="contact_search_input" name="query" v-model="searchQuery">
     </div>
-    <HeaderLinkContacts
-       :title-contacts="headerContacts"       
-    />
     <AddContact 
       v-if="isOpenForm" 
       @close="isOpenForm = false" 
     /> 
-      <ContactItem 
-      :contact="contact"      
+    <HeaderLinkContacts
+       :title-contacts="headerContacts"  
+       @toggle="toggleColor"     
+    />
+    <router-link
       v-for="contact in filteredData" 
       :key="contact.id"
+      :to="`/contact/${contact.id}`"
+    >
+    <ContactItem 
+      :contact="contact"         
     />
+    </router-link>
   </div>
 </template>
 
@@ -43,7 +48,7 @@ export default {
       headerContacts: [
         {
           title: 'name',
-          isActive: false
+          isActive: true
         },
         {
           title: 'number',
@@ -76,8 +81,14 @@ export default {
   },
   methods: {
     ...mapActions(['fetchContacts']),
+
+    toggleColor(index) {
+      this.headerContacts.forEach((item) => {
+        item.isActive = false
+      })
+      this.headerContacts[index].isActive = !this.headerContacts[index].isActive
+    }
   },
-  
 }
 </script>
 <style scoped lang="scss">
