@@ -19,6 +19,7 @@ export default {
     name: 'HeaderLinkContacts',
     props: {
         titleContacts: Array,
+        
     },
     methods: {
      ...mapMutations(['setSortContacts']),

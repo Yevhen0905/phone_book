@@ -10,10 +10,6 @@
                 <label for="number">Number</label>
                 <input class="add_contact_input" type="number" id="number" v-model="info.number">
             </div>
-            <!-- <div class="add_contact_item">
-            <label for="name">Date</label>
-            <input type="text" id="name">
-        </div> -->
             <div class="add_contact_btn">
                 <button class="btn_cancel btn" @click.prevent="close">Cancel</button>
                 <button class="btn_save btn" @click.prevent="submit" type="submit">Save</button>

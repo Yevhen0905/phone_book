@@ -16,14 +16,19 @@
        @toggle="toggleColor"     
     />
     <router-link
-      v-for="contact in filteredData" 
-      :key="contact.id"
-      :to="`/contact/${contact.id}`"
-    >
-    <ContactItem 
-      :contact="contact"         
+        v-for="contact in filteredData" 
+        :key="contact.id"
+        :to="`/contact/${contact.id}`"
+      >
+      <ContactItem 
+        :contact="contact"         
     />
     </router-link>
+    <PaginationContacts 
+      :item-page="page"
+      :num-pages="numPages"
+      @paginate="onPageChange"
+    />
   </div>
 </template>
 
@@ -31,6 +36,7 @@
 import AddContact from '@/components/AddContact.vue';
 import ContactItem from '@/components/ContactItem.vue';
 import HeaderLinkContacts from '@/components/HeaderLinkContacts.vue';
+import PaginationContacts from '@/components/PaginationContacts.vue';
 
 import { mapActions, mapGetters } from 'vuex';
 
@@ -39,7 +45,8 @@ export default {
   components: {
     ContactItem,
     AddContact,
-    HeaderLinkContacts
+    HeaderLinkContacts,
+    PaginationContacts
 },
   data() {
     return {
@@ -58,11 +65,11 @@ export default {
           title: 'date',
           isActive: false
         }
-      ],
+      ]
     }
   },
   computed: {
-    ...mapGetters(['allContacts']),
+    ...mapGetters(['allContacts', 'numPages']),
 
     filteredData() {
       let listContacts = this.allContacts;
@@ -74,21 +81,31 @@ export default {
       })
      }
      return listContacts
-    }   
+    },
+    get() {
+     return this.$store.state.page
+    },
   },
   mounted() {
-    this.fetchContacts()
+    this.fetchContacts(),
+    this.getTotalCountContacts()
   },
   methods: {
-    ...mapActions(['fetchContacts']),
+    ...mapActions(['fetchContacts','getTotalCountContacts']),
 
     toggleColor(index) {
       this.headerContacts.forEach((item) => {
         item.isActive = false
       })
       this.headerContacts[index].isActive = !this.headerContacts[index].isActive
-    }
+    },
+    onPageChange(item) {
+      this.page = item;
+		},
   },
+  created() {
+    this.page = 1;
+  }
 }
 </script>
 <style scoped lang="scss">

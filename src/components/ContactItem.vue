@@ -39,6 +39,7 @@ export default {
   name: 'ContactItem',
   props: {
     contact: Object,
+    default: () => {},
   },
   methods: {
     ...mapActions(['deleteContact', 'fetchContacts']),
@@ -46,15 +47,15 @@ export default {
       this.deleteContact(this.contact.id)
       this.fetchContacts()
     },
-    dateConverter(UNIX_timestamp) {
-      const a = new Date(UNIX_timestamp * 1000);
-      const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-      const year = a.getFullYear();
-      const month = '0' + months[a.getMonth()];
-      const date = a.getDate();
-      const time = `${date}.${month}.${year}`;
-      return time;
-    }
+    // dateConverter(UNIX_timestamp) {
+    //   const a = new Date(UNIX_timestamp * 1000);
+    //   const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    //   const year = a.getFullYear();
+    //   const month = '0' + months[a.getMonth()];
+    //   const date = a.getDate();
+    //   const time = `${date}.${month}.${year}`;
+    //   return time;
+    // }
   }
 
 }

@@ -8,11 +8,15 @@ export default {
     contact: {},
     sortBy: '',
     sortDirection: 'asc',  // порядок напряму
-    // contact: {}
+    page: 1,
+    limit: 7,
+    totalCountContacts: '',
+    loading: false 
   },
   mutations: {
     getContacts(state, contacts) {
       state.contacts = contacts
+      // state.page = page
     },
     addContact(state, newContact) {
       state.contacts.push(newContact)
@@ -20,13 +24,7 @@ export default {
     deleteContact(state, id) {
       state.contacts = state.contacts.filter(contact => contact.id !== id)
     },
-    //отримую контакт  і встановлюю значення в масив і в контакт
-    // setContact(state, id) {
-    //     setTimeout(function() {
-    //       let allContacts = state.contacts;
-    //     state.contact = id ? allContacts.find(contact => contact.id === id) : {}
-    //     }, 0)
-    // },
+    /// сортування
     setSortContacts(state, sortKey) {
       if(sortKey === state.sortBy) {
         state.sortDirection = state.sortDirection === 'asc' ? 'desc' : 'asc';
@@ -40,16 +38,30 @@ export default {
         if(a[state.sortBy] > b[state.sortBy]) return modifier
         return state.contacts = contacts
       })
+    },
+    setTotalCountContacts(state, totalCountContacts) {
+      state.totalCountContacts = totalCountContacts
     }
   },
   
-
   actions: {
-    async fetchContacts(ctx) {
-      const res = await axios.get(URL);
+    async fetchContacts({state, commit}) {
+      const res = await axios.get(URL,{ 
+       params: {
+        page: state.page,
+        limit: state.limit
+       }
+      });
       const contacts = await res.data;
-      // console.log(contacts);
-      ctx.commit('getContacts', contacts)
+      const total = contacts.length;
+      console.log(res);
+      commit('getContacts', contacts)
+    },
+
+    async getTotalCountContacts(ctx) {
+      const res = await axios.get(URL);
+      const totalCountContacts = await res.data.length;            
+      ctx.commit('setTotalCountContacts', totalCountContacts )
     },
 
     async addContact(ctx, newContact, params) {
@@ -64,13 +76,11 @@ export default {
     async deleteContact(ctx, id) {
       let res = await axios.delete(URL + id);
       ctx.commit('deleteContact', id);
-    },
-    // setContact(ctx, id) {
-    //   ctx.commit('setContact', id)
-    // }
+    }
   },
   getters: {
     allContacts: state => state.contacts,
-    contact: state => state.contact
+    contact: state => state.contact,
+    numPages: state => Math.ceil(state.totalCountContacts / state.limit)
   }
 }
